@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}Snip — Shorten Your URLs{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <h1>اختصار الروابط</h1>
+    <p class="subtitle">Paste a long link and get a clean short one instantly.</p>
+
+    <form method="POST" action="/" class="shorten-form">
+        <div class="input-row">
+            <input
+                type="text"
+                name="url"
+                placeholder="https://example.com/very/long/url..."
+                class="url-input"
+                autofocus
+                required
+            />
+            <button type="submit" class="btn-primary">Shorten</button>
+        </div>
+    </form>
+
+    {% if short_url %}
+    <div class="result-card">
+        <p class="result-label">Your short URL:</p>
+        <div class="result-row">
+            <a href="{{ short_url }}" target="_blank" class="short-link">{{ short_url }}</a>
+            <button class="btn-copy" onclick="copyToClipboard('{{ short_url }}')">Copy</button>
+        </div>
+    </div>
+    {% endif %}
+</section>
+
+{% if urls %}
+<section class="recent-section">              <h2>الروابط الأخيرة</h2>
+    <table class="links-table">
+        <thead>
+            <tr>
+                <th> الرابط المختصر</th>
+                <th>الرابط الأصلي</th>
+                <th> عدد النقرات</th>
+                <th> تاريخ الإنشاء</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for url in urls %}
+            <tr>
+                <td>
+                    <a href="/{{ url.short_code }}" target="_blank" class="short-link-small">
+                        /{{ url.short_code }}
+                    </a>
+                </td>
+                <td class="original-url" title="{{ url.original_url }}">
+                    {{ url.original_url | truncate(50) }}
+                </td>
+                <td class="clicks-count">{{ url.clicks }}</td>
+                <td class="created-date">{{ url.created_at.strftime('%b %d, %Y') }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endif %}
+
+<script>
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(() => {
+        const btn = document.querySelector('.btn-copy');
+        const original = btn.textContent;
+        btn.textContent = 'Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+            btn.textContent = original;
+            btn.classList.remove('copied');
+        }, 2000);
+    });
+}
+</script>
+{% endblock %}
