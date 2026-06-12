@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Stats — /{{ url.short_code }}{% endblock %}
+
+{% block content %}
+<section class="stats-page">
+    <a href="/" class="back-link">← Back</a>
+    <h1>Link Stats</h1>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <p class="stat-label">Short URL</p>
+            <p class="stat-value"><a href="/{{ url.short_code }}">/{{ url.short_code }}</a></p>
+        </div>
+        <div class="stat-card highlight">
+            <p class="stat-label">Total Clicks</p>
+            <p class="stat-value big">{{ url.clicks }}</p>
+        </div>
+        <div class="stat-card">
+            <p class="stat-label">Created</p>
+            <p class="stat-value">{{ url.created_at.strftime('%B %d, %Y') }}</p>
+        </div>
+    </div>
+
+    <div class="original-url-box">
+        <p class="stat-label">Original URL</p>
+        <a href="{{ url.original_url }}" target="_blank" class="original-full">{{ url.original_url }}</a>
+    </div>
+</section>
+{% endblock %}
