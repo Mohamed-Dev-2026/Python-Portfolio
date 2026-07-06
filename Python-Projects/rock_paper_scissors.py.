@@ -51,7 +51,7 @@ elif computer_result=="paper" and choose=="rock":
 elif computer_result =="scissors" and choose=="paper":
         print(f"\n you chosse {ascii_paper} \nthé computer_result {ascii_scissors}")
         print("you lost,scissors beats paper")
-elif choose is not choice :
+elif choose is not choices:
     print("please stick to the choices")
 else:
     print(f" the resulte computer is {computer_result}")
